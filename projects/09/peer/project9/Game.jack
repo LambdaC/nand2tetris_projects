@@ -1,0 +1,102 @@
+// This class represents the main game process.
+//
+// It handles both the game itself, as well as printing the score,
+// the 'end of game' message and restarting the game if the user
+// wants so.
+//
+
+class Game {
+	// there is a bug in 'JackCompiler' provided which doesn't allow
+	// to create classes with no fiels. so I've added one dummy field here.
+	field int dummy;
+	
+	constructor Game new() {
+		return this;
+	}
+   
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	//	
+	// main loop
+	// - run game
+	// - show the game over screen
+	// - wait for ENTER and then start over
+	//	
+	method void loop() {
+   		var int points;
+   		
+		while (true) {
+      		let points = playGame();
+
+      		do showGameOverScreen(points);
+      		do waitForEnter();
+      	}
+
+		return;
+	}
+   
+	method int playGame() {
+		var Ball ball;
+		var Racket racket;
+		var char key;
+		var boolean active;
+		var int points;
+      
+		do Screen.clearScreen();
+
+      	let ball = Ball.new(10);
+      	let racket = Racket.new(242, 60, 10);
+
+    	let active = true;
+    	let points = 0;
+      	while (active) {
+      		do Sys.wait(5);
+
+      		let key = Keyboard.keyPressed();
+      	
+      		// left arrow
+      		if (key = 130) {
+      			do racket.move(-2);
+      		}
+      		// right arrow
+      		if (key = 132) {
+      			do racket.move(2);
+      		}
+      	
+      		let active = ball.move(racket);
+      		let points = points + 1;
+      	}
+      	
+      	do ball.dispose();
+      	do racket.dispose();
+
+		return points / 20;
+   }
+   
+   method void showGameOverScreen(int points) {
+      	do Screen.clearScreen();
+      	
+      	do Output.moveCursor(0, 0);
+      	do Output.printString("Game over!");
+      	do Output.println();
+      	do Output.printString("Number of points: ");
+      	do Output.printInt(points);
+      	do Output.println();
+      	do Output.println();
+      	do Output.printString("Press ENTER to start over.");
+
+		return;
+   }
+   
+   method void waitForEnter() {
+      	while (~(Keyboard.keyPressed() = 128)) {
+      		do Sys.wait(1);
+      	}
+
+		return;
+   }
+   
+}

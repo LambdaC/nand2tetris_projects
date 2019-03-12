@@ -1,0 +1,87 @@
+class AircraftRender {
+	
+	function void drawAircraft(int row, int col) {
+		do AircraftRender.draw_left_top(row, col);
+		do AircraftRender.draw_right_top(row, col);
+		do AircraftRender.draw_left_bottom(row, col);
+		do AircraftRender.draw_right_bottom(row, col);
+		return;
+	}
+	
+	//left_top
+	function void draw_left_top(int row, int col) {
+		var int memAddress;
+		let memAddress = 16384 + (row*32) + (col / 16);
+		do Memory.poke(memAddress+0, 2048);
+		do Memory.poke(memAddress+32, 5120);
+		do Memory.poke(memAddress+64, 5120);
+		do Memory.poke(memAddress+96, 5120);
+		do Memory.poke(memAddress+128, 5120);
+		do Memory.poke(memAddress+160, 5120);
+		do Memory.poke(memAddress+192, 13824);
+		do Memory.poke(memAddress+224, 13824);
+		do Memory.poke(memAddress+256, 30464);
+		do Memory.poke(memAddress+288, -15968);
+		do Memory.poke(memAddress+320, -8728);
+		do Memory.poke(memAddress+352, 27512);
+		do Memory.poke(memAddress+384, 10876);
+		do Memory.poke(memAddress+416, 27423);
+		do Memory.poke(memAddress+448, -13952);
+		do Memory.poke(memAddress+480, -30528);
+		return;
+	}
+
+	//right_top
+	function void draw_right_top(int row, int col) {
+		var int memAddress;
+		var int value;
+		let memAddress = 16384+ (row*32) + ((col+16)  / 16);
+		let value = Memory.peek(memAddress+288);
+		let value = value & -256;
+		do Memory.poke(memAddress+288, value + 2);
+		let value = Memory.peek(memAddress+320);
+		let value = value & -256;
+		do Memory.poke(memAddress+320, value + 11);
+		let value = Memory.peek(memAddress+352);
+		let value = value & -256;
+		do Memory.poke(memAddress+352, value + 31);
+		let value = Memory.peek(memAddress+384);
+		let value = value & -256;
+		do Memory.poke(memAddress+384, value + 62);
+		let value = Memory.peek(memAddress+416);
+		let value = value & -256;
+		do Memory.poke(memAddress+416, 248);
+		let value = Memory.peek(memAddress+480);
+		let value = value & -256;
+		do Memory.poke(memAddress+480, value + 1);
+		return;
+	}
+
+	//left_bottom
+	function void draw_left_bottom(int row, int col) {
+		var int memAddress;
+		let memAddress = 16384+ ((row+16)*32) + (col / 16);
+		do Memory.poke(memAddress+0, -30496);
+		do Memory.poke(memAddress+32, -16);
+		do Memory.poke(memAddress+64, 13888);
+		do Memory.poke(memAddress+96, 5120);
+		return;
+	}
+
+	//right_bottom
+	function void draw_right_bottom(int row, int col) {
+		var int memAddress;
+		var int value;
+		let memAddress = 16384+ ((row+16)*32) + ((col+16) / 16);
+		let value = Memory.peek(memAddress+0);
+		let value = value & -256;
+		do Memory.poke(memAddress+0, value+3);
+		let value = Memory.peek(memAddress+32);
+		let value = value & -256;
+		do Memory.poke(memAddress+32, value+7);
+		let value = Memory.peek(memAddress+64);
+		let value = value & -256;
+		do Memory.poke(memAddress+64, value+1);
+		return;
+	}	
+}

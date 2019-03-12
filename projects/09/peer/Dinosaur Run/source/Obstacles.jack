@@ -1,0 +1,191 @@
+class Obstacles {
+    field Array obstacles;
+    field int speed;
+    field Random random;
+
+    constructor Obstacles new() {
+        let obstacles = Array.new(4);
+        let obstacles[0] = Obstacle.new();
+        let obstacles[1] = Obstacle.new();
+        let obstacles[2] = Obstacle.new();
+        let obstacles[3] = Obstacle.new();
+        let speed = 0;
+        let random = Random.new(30005);
+        return this;
+    }
+
+    //gets x position of n obstacle
+    method int getX(int n) {
+        var Obstacle a;
+        let a = obstacles[n];
+        return a.getX();
+    }
+
+    //updates position of obsticles and determines when to place obstacle on screen
+    method void update() {
+        var int i, x, temp;
+        var Obstacle a;
+        let i = 0;
+        let x = 0;
+
+        while(i < 4) {
+            let a = obstacles[i];
+            let x = a.getX();
+
+            //checks if obstacle is on screen if so update
+            //if not give a random chance for the obstacle to appear on screen
+            if(x + 16 - speed < 512) {
+                if(x - speed > - 1) {
+                    do a.update();
+                    
+                } else {
+                    let temp = random.randRange(30);
+                    if(temp = 24) {
+                        if(checkSpace(i)) {
+                            do a.setX(490);
+                        }
+                    }
+                }
+            } else {
+                let temp = random.randRange(30);
+                if(temp = 24) {
+                    if(checkSpace(i)) {
+                        do a.setX(490);
+                    }
+                }
+            }
+
+            if(x = 0) {
+                do a.setX(513);
+            }
+            
+            let i = i + 1;
+        }
+        
+        return;
+    }
+
+
+    //checks to see if there is already an obstacle on screen close to the right side
+    method boolean checkSpace(int n) {
+        var int i,x;
+        var Obstacle a;
+        
+        let i = 0;
+        
+        while(i < 4) {
+            if(~(i = n)) {
+                let a = obstacles[i];
+                let x = a.getX();
+                if( x > ( 380 + (speed*10) ) ) {
+                    if(x < 511) {
+                        return false;
+                    }
+                }
+            }
+            let i = i + 1;
+        }
+        return true;
+    }
+
+
+    //changes the speed of all obstacles
+    method void changeSpeedMultiple(int s, boolean reset) {
+        var int i;
+        var Obstacle a;
+        let i = 0;
+        
+        while(i < 4) {
+            let a = obstacles[i];
+            do a.changeSpeed(s, reset);
+            let i = i + 1;
+        }
+        return;
+    }
+
+    //clears obstacle if it on screen
+    method void clear() {
+        var int i, x;
+        var Obstacle a; 
+        let x = 0;
+        let i = 0;
+        
+        while(i < 4) {
+            let a = obstacles[i];
+            let x = a.getX();
+            if(x + 16 < 511) {
+                if(x > 0) {
+                    do a.clear();
+                }
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
+
+    //draws obstacle if on screen
+    method void draw() {
+        var int i, x;
+        var Obstacle a; 
+        let x = 0;
+        let i = 0;
+        
+        while(i < 4) {
+            let a = obstacles[i];
+            let x = a.getX();
+            if(x + 16 < 511) {
+                if(x > 0) {
+                    do a.draw();
+                }
+            }
+            let i = i + 1;
+        }
+        return;
+    } 
+
+
+    //reset all obstacles
+    method void reset() {
+        var int i;
+        var Obstacle a; 
+        let i = 0;
+
+        //clear obstacles before changing position
+        do clear();
+        
+        //change x position of obstacle to off screen
+        while(i < 4) {
+            let a = obstacles[i];
+            do a.setX(513);
+            let i = i + 1;
+        }
+
+
+        //clears obstacles
+        
+
+        //resets speed
+        do changeSpeedMultiple(speed, true);
+
+        return;
+    }
+
+    method void dispose() {
+        var int i;
+        var Obstacle a;
+        let i = 0;
+
+        //dispose of each obstacle
+        while(i < 4) {
+            let a = obstacles[i];
+            do a.dispose();
+            let i = i + 1;
+        }
+
+        //dispose of random object
+        do random.dispose();
+
+        return;
+    }
+}

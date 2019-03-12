@@ -1,0 +1,59 @@
+class Render {
+	
+	function void renderAircraft(int row, int col){
+		do AircraftRender.drawAircraft(row, col);
+		return;
+	}
+
+	function void renderEnemy(int row, int col) {
+		do EnemyRender.drawEnemy(row, col);
+		return;
+	}
+
+	function void renderBullet(int row, int col) {
+		do Screen.setColor(true);
+		do Screen.drawLine(col, row, col, row + 16);
+		return;
+	}
+	
+	function void clearArea(int x1, int y1, int x2, int y2){
+		do Screen.setColor(false);
+		do Screen.drawRectangle(x1, y1, x2, y2);
+		return;
+	}
+	
+	function void renderTips() {
+		do Output.moveCursor(0,40);
+		do Output.printString("Score:");
+		do Output.moveCursor(1,40);
+		do Output.printString("Tips:");
+		do Output.moveCursor(2, 40);
+		do Output.printString("Press left, right, up,");
+		do Output.moveCursor(3,40);
+		do Output.printString("down arrow to move.");
+		do Output.moveCursor(4,40);
+		do Output.printString("Press space to shoot.");
+		do Output.moveCursor(5,40);
+		do Output.printString("Press s to start.");
+		do Output.moveCursor(6,40);
+		do Output.printString("Press p to pause.");
+		do Output.moveCursor(7,40);
+		do Output.printString("Press r to resume.");
+		do Output.moveCursor(8,40);
+		do Output.printString("Press q to quit.");
+		return;
+	}
+	
+	function void renderScore(int score) {
+		do Output.moveCursor(0,46);
+		do Output.printInt(score);
+		return;
+	}
+	
+	function void renderInfo(int row, int col, String info) {
+		do Output.moveCursor(row,col);
+		do Output.printString(info);
+		return;
+	}
+	
+}

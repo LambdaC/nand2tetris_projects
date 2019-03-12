@@ -1,0 +1,12 @@
+function GameState.Inited 0
+push constant 0
+return
+function GameState.Running 0
+push constant 1
+return
+function GameState.Paused 0
+push constant 2
+return
+function GameState.Over 0
+push constant 3
+return

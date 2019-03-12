@@ -1,0 +1,313 @@
+function EnemyRender.drawEnemy 0
+push argument 0
+push argument 1
+call EnemyRender.draw_left_top 2
+pop temp 0
+push argument 0
+push argument 1
+call EnemyRender.draw_right_top 2
+pop temp 0
+push argument 0
+push argument 1
+call EnemyRender.draw_left_bottom 2
+pop temp 0
+push constant 0
+return
+function EnemyRender.draw_left_top 1
+push constant 16384
+push argument 0
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push local 0
+push constant 0
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+push constant 13824
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+push constant 32
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 96
+add
+push constant 13888
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 128
+add
+push constant 13952
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 160
+add
+push constant 27392
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 192
+add
+push constant 13855
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 224
+add
+push constant 5244
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 256
+add
+push constant 10760
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 288
+add
+push constant 2072
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 320
+add
+push constant 2144
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 352
+add
+push constant 30464
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 384
+add
+push constant 15872
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 416
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 448
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 480
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function EnemyRender.draw_right_top 2
+push constant 16384
+push argument 0
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+add
+push constant 16
+call Math.divide 2
+add
+pop local 1
+push local 1
+push constant 64
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 64
+add
+push local 0
+push constant 3
+add
+call Memory.poke 2
+pop temp 0
+push local 1
+push constant 96
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 96
+add
+push local 0
+push constant 1
+add
+call Memory.poke 2
+pop temp 0
+push local 1
+push constant 192
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 192
+add
+push local 0
+push constant 124
+add
+call Memory.poke 2
+pop temp 0
+push local 1
+push constant 224
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 224
+add
+push local 0
+push constant 31
+add
+call Memory.poke 2
+pop temp 0
+push local 1
+push constant 256
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 256
+add
+push local 0
+push constant 15
+add
+call Memory.poke 2
+pop temp 0
+push local 1
+push constant 288
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 288
+add
+push local 0
+push constant 11
+add
+call Memory.poke 2
+pop temp 0
+push local 1
+push constant 320
+add
+call Memory.peek 1
+pop local 0
+push local 0
+push constant 256
+neg
+and
+pop local 0
+push local 1
+push constant 320
+add
+push local 0
+push constant 2
+add
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function EnemyRender.draw_left_bottom 1
+push constant 16384
+push argument 0
+push constant 16
+add
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push local 0
+push constant 0
+add
+push constant 7168
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+push constant 2048
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+push constant 2048
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 96
+add
+push constant 2048
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function EnemyRender.draw_right_bottom 0
+push constant 0
+return

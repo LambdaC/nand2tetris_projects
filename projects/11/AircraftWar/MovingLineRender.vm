@@ -1,0 +1,147 @@
+function MovingLineRender.init 1
+push constant 0
+pop local 0
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+label L0
+push local 0
+push constant 255
+lt
+not
+if-goto L1
+push constant 0
+push local 0
+push constant 0
+push local 0
+push constant 15
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 312
+push local 0
+push constant 312
+push local 0
+push constant 15
+add
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push constant 32
+add
+pop local 0
+goto L0
+label L1
+push constant 0
+pop static 0
+push constant 0
+return
+function MovingLineRender.drawMovingLine 2
+push constant 8
+pop local 0
+push static 0
+pop local 1
+push constant 0
+call Screen.setColor 1
+pop temp 0
+label L2
+push local 0
+push constant 0
+gt
+not
+if-goto L3
+push local 1
+push constant 255
+gt
+not
+if-goto L4
+push local 1
+push constant 255
+sub
+push constant 1
+sub
+pop local 1
+label L4
+push constant 0
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push constant 312
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push local 1
+push constant 32
+add
+pop local 1
+push local 0
+push constant 1
+sub
+pop local 0
+goto L2
+label L3
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+push constant 8
+pop local 0
+push static 0
+push constant 16
+add
+pop local 1
+label L6
+push local 0
+push constant 0
+gt
+not
+if-goto L7
+push local 1
+push constant 255
+gt
+not
+if-goto L8
+push local 1
+push constant 255
+sub
+push constant 1
+sub
+pop local 1
+label L8
+push constant 0
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push constant 312
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push local 1
+push constant 32
+add
+pop local 1
+push local 0
+push constant 1
+sub
+pop local 0
+goto L6
+label L7
+push static 0
+push constant 1
+add
+pop static 0
+push static 0
+push constant 255
+gt
+not
+if-goto L10
+push static 0
+push constant 255
+sub
+push constant 1
+sub
+pop static 0
+label L10
+push constant 0
+return

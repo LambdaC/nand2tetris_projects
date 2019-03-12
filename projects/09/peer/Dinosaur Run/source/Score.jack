@@ -1,0 +1,62 @@
+class Score {
+    field int score;
+    field int highscore;
+    field String string1;
+    field String string2;
+
+    constructor Score new() {
+        let score = 0;
+        let highscore = 0;
+        let string1 = "Score: ";
+        let string2 = "High Score: ";
+        return this;
+    }
+
+
+    //resets the score
+    method void reset() {
+        //checks for new highscore
+        if(score > highscore) {
+            let highscore = score;
+        }
+        //sets score to zero
+        let score = 0;
+        return;
+    }
+
+
+    //increases score by 1 and checks if there is a new highscore
+    method void update() {
+        let score = score + 1;
+        if(score > highscore) {
+            let highscore = score;
+        }
+        return;
+    }
+
+    method void draw() {
+        do Output.printString(string1);
+        do Output.printInt(score);
+        do Output.println();
+        do Output.printString(string2);
+        do Output.printInt(highscore);
+        return;
+    }
+
+    method int getScore() {
+        return score;
+    }
+
+    //clears score by drawing over it
+    method void clear() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(0, 0, 511, 20);
+        do Output.moveCursor(0, 0);
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

@@ -1,0 +1,207 @@
+function Racket.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 0
+push argument 0
+pop this 1
+push argument 1
+pop this 2
+push argument 2
+pop this 3
+push pointer 0
+call Racket.initialDraw 1
+pop temp 0
+push pointer 0
+return
+function Racket.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Racket.move 0
+push argument 0
+pop pointer 0
+push this 0
+push this 2
+add
+push argument 1
+add
+push constant 511
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push this 0
+push argument 1
+add
+push constant 0
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push pointer 0
+push argument 1
+call Racket.incrementalDrawClear 2
+pop temp 0
+push pointer 0
+push argument 1
+call Racket.incrementalDrawAdd 2
+pop temp 0
+push this 0
+push argument 1
+add
+pop this 0
+push constant 0
+return
+function Racket.bounces 0
+push argument 0
+pop pointer 0
+push argument 1
+call Ball.getX 1
+push this 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push argument 1
+call Ball.getX 1
+push argument 1
+call Ball.getSize 1
+add
+push this 0
+push this 2
+add
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push constant 0
+not
+return
+function Racket.initialDraw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push this 2
+add
+push this 1
+push this 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Racket.incrementalDrawClear 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 1
+push constant 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push this 1
+push this 0
+push argument 1
+add
+push constant 1
+sub
+push this 1
+push this 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push this 0
+push this 2
+add
+push argument 1
+add
+push constant 1
+add
+push this 1
+push this 0
+push this 2
+add
+push this 1
+push this 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_END0
+push constant 0
+return
+function Racket.incrementalDrawAdd 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 1
+push constant 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push this 2
+add
+push this 1
+push this 0
+push this 2
+add
+push argument 1
+add
+push constant 1
+sub
+push this 1
+push this 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push this 0
+push argument 1
+add
+push constant 1
+add
+push this 1
+push this 0
+push this 1
+push this 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_END0
+push constant 0
+return

@@ -1,0 +1,30 @@
+function GameConfig.movingLineSpeed 0
+push constant 50
+return
+function GameConfig.enemyMoveSpeed 0
+push constant 100
+return
+function GameConfig.maxEnemies 0
+push constant 6
+return
+function GameConfig.maxEnemyBullets 0
+push constant 10
+return
+function GameConfig.enemySpawnSpeed 0
+push constant 2500
+return
+function GameConfig.enemyShootSpeed 0
+push constant 35
+return
+function GameConfig.bulletSpeed 0
+push constant 10
+return
+function GameConfig.maxBullets 0
+push constant 5
+return
+function GameConfig.shootSpeed 0
+push constant 1
+return
+function GameConfig.inputSpeed 0
+push constant 75
+return

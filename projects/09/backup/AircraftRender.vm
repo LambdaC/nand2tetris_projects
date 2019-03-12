@@ -1,0 +1,365 @@
+function AircraftRender.drawAircraft 0
+push argument 0
+push argument 1
+call AircraftRender.draw_left_top 2
+pop temp 0
+push argument 0
+push argument 1
+call AircraftRender.draw_right_top 2
+pop temp 0
+push argument 0
+push argument 1
+call AircraftRender.draw_left_bottom 2
+pop temp 0
+push argument 0
+push argument 1
+call AircraftRender.draw_right_bottom 2
+pop temp 0
+push constant 0
+return
+function AircraftRender.draw_left_top 1
+push constant 16384
+push argument 0
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push local 0
+push constant 0
+add
+push constant 2048
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 96
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 128
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 160
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 192
+add
+push constant 13824
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 224
+add
+push constant 13824
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 256
+add
+push constant 30464
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 288
+add
+push constant 15968
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 320
+add
+push constant 8728
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 352
+add
+push constant 27512
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 384
+add
+push constant 10876
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 416
+add
+push constant 27423
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 448
+add
+push constant 13952
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 480
+add
+push constant 30528
+neg
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function AircraftRender.draw_right_top 2
+push constant 16384
+push argument 0
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+add
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push local 0
+push constant 288
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 288
+add
+push local 1
+push constant 2
+add
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 320
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 320
+add
+push local 1
+push constant 11
+add
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 352
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 352
+add
+push local 1
+push constant 31
+add
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 384
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 384
+add
+push local 1
+push constant 62
+add
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 416
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 416
+add
+push constant 248
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 480
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 480
+add
+push local 1
+push constant 1
+add
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function AircraftRender.draw_left_bottom 1
+push constant 16384
+push argument 0
+push constant 16
+add
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push local 0
+push constant 0
+add
+push constant 30496
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+push constant 16
+neg
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+push constant 13888
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 96
+add
+push constant 5120
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function AircraftRender.draw_right_bottom 2
+push constant 16384
+push argument 0
+push constant 16
+add
+push constant 32
+call Math.multiply 2
+add
+push argument 1
+push constant 16
+add
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push local 0
+push constant 0
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 0
+add
+push local 1
+push constant 3
+add
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 32
+add
+push local 1
+push constant 7
+add
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 256
+neg
+and
+pop local 1
+push local 0
+push constant 64
+add
+push local 1
+push constant 1
+add
+call Memory.poke 2
+pop temp 0
+push constant 0
+return

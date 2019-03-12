@@ -1,0 +1,154 @@
+function Enemy.new 0
+push constant 7
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+call Enemy.initData 1
+pop temp 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push pointer 0
+return
+function Enemy.initData 0
+push argument 0
+pop pointer 0
+push constant 24
+pop this 2
+push constant 20
+pop this 3
+push constant 0
+pop this 6
+push constant 0
+pop this 4
+push constant 0
+pop this 5
+push constant 0
+return
+function Enemy.render 0
+push argument 0
+pop pointer 0
+push this 0
+push this 1
+call Render.renderEnemy 2
+pop temp 0
+push constant 0
+return
+function Enemy.clearEnemy 0
+push argument 0
+pop pointer 0
+push this 1
+push this 0
+push this 1
+push this 2
+add
+push this 0
+push this 3
+add
+call Render.clearArea 4
+pop temp 0
+push constant 0
+return
+function Enemy.move 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Enemy.clearEnemy 1
+pop temp 0
+push this 0
+push constant 1
+add
+pop this 0
+push this 0
+push this 3
+add
+push constant 255
+gt
+not
+if-goto L0
+push constant 255
+push this 3
+sub
+pop this 0
+push constant 1
+neg
+pop this 4
+label L0
+push pointer 0
+call Enemy.render 1
+pop temp 0
+push constant 0
+return
+function Enemy.isDead 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Enemy.getRow 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Enemy.getCol 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Enemy.getWidth 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Enemy.getHeight 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Enemy.isKilled 0
+push argument 0
+pop pointer 0
+push this 5
+return
+function Enemy.setKilled 0
+push argument 0
+pop pointer 0
+push constant 1
+neg
+pop this 5
+push constant 1
+neg
+pop this 4
+push constant 0
+return
+function Enemy.canShoot 0
+push argument 0
+pop pointer 0
+push this 6
+call GameConfig.enemyShootSpeed 0
+eq
+not
+if-goto L2
+push constant 0
+pop this 6
+push constant 1
+neg
+return
+label L2
+push this 6
+push constant 1
+add
+pop this 6
+push constant 0
+return
+function Enemy.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Enemy.clearEnemy 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

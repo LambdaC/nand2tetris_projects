@@ -1,0 +1,75 @@
+class EnemyContainer {
+	field Array arr;
+	field int size;
+	field int maxSize;
+	
+	constructor EnemyContainer new(init max){
+		let maxSize = max;
+		let arr = Array.new(maxSize);
+		let size = 0;
+		do initData();
+		return this;
+	}
+	
+	method void initData() {
+		var int index;
+		let index = 0;
+		while (index < maxSize) {
+			let arr[index] = null;
+			let index = index + 1;
+		}
+		return;
+	}
+	
+	method void addEnemy(Enemy enemy) {
+		var int index;
+		if(size = maxSize) {
+			return;
+		}
+		let index = 0;
+		while(index < maxSize) {
+			if(arr[index] = null){
+				let arr[index] = enemy;
+				let size = size + 1;
+				return;
+			}else{
+				let index = index + 1;
+			}
+		}
+		return;
+	}
+	
+	method void removeEnemy(int index) {
+		var Enemy enemy;
+		if(~(arr[index] = null)) {
+			let enemy = arr[index];
+			do enemy.dispose();
+			let arr[index] = null;
+			let size = size - 1;
+		}
+		return;
+	}
+	
+	method Enemy getEnemy(int index){
+		if(~(arr[index] = null)){
+			return arr[index];
+		}else{
+			return null;
+		}
+	}
+	
+	
+	method int maxSize() {
+		return maxSize;
+	}
+	
+	method int size() {
+		return size;
+	}
+	
+	method void dispose() {
+		do arr.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+}

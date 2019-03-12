@@ -1,0 +1,41 @@
+function Game.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+call GameController.new 0
+pop this 0
+push pointer 0
+return
+function Game.run 0
+push argument 0
+pop pointer 0
+push this 0
+call GameController.init 1
+pop temp 0
+label L0
+push this 0
+call GameController.isGameOver 1
+not
+not
+if-goto L1
+push this 0
+call GameController.handleGame 1
+pop temp 0
+goto L0
+label L1
+push this 0
+call GameController.over 1
+pop temp 0
+push constant 0
+return
+function Game.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call GameController.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

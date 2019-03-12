@@ -1,0 +1,109 @@
+// This class represents the racket.
+//
+// It keeps its current coordinates, handles drawing the racket
+// on the screen and manages its movement depending on the direction passed.
+// It also exposes the `bounces(Ball ball)` method, which is used by the
+// `Ball` class to check if the ball will bounce off the racket.
+//
+
+class Racket {
+	field int x;			// the current location of the racket, X coordinate
+	field int y;			// ...Y coordinate
+	field int sizeX;		// racket size, X dimension
+	field int sizeY;		// ...Y dimension
+
+	constructor Racket new(int racketY, int racketSizeX, int racketSizeY) {
+		let x = 0;
+		let y = racketY;
+		let sizeX = racketSizeX;
+		let sizeY = racketSizeY;
+		
+		do initialDraw();
+		
+		return this;
+	}
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void move(int direction) {
+		if (x + sizeX + direction > 511) {
+			return;
+		}
+
+		if (x + direction < 0) {
+			return;
+		}
+		
+		do incrementalDrawClear(direction);
+		do incrementalDrawAdd(direction);
+		
+		let x = x + direction;
+
+		return;
+	}
+	
+	//
+	// checks if the racket will bounce off the ball,
+	// taking into account the coordinates and dimensions of both
+	//
+	method boolean bounces(Ball ball) {
+		if (ball.getX() < x) {
+			return false;
+		}
+		if ((ball.getX() + ball.getSize()) > (x + sizeX)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	//
+	// draw the complete racket in the start location
+	//
+	// later on we will only update the position incrementally
+	// i.e. remove a thin rectangle in from the place that the racket has just left
+	//   and draw a new thin rectangle in the place the racket is entering
+	//
+	method void initialDraw() {
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x, y, x + sizeX, y + sizeY);
+		
+		return;
+	}
+	
+	//	
+	// remove the piece of racket which disappeared
+	//	
+	method void incrementalDrawClear(int direction) {
+		do Screen.setColor(false);
+		
+		if (direction > 0) {
+			do Screen.drawRectangle(x, y, x+direction-1, y+sizeY);
+		}
+		else {
+			do Screen.drawRectangle(x+sizeX+direction+1, y, x+sizeX, y+sizeY);
+		}
+		
+		return;
+	}
+	
+	//	
+	// draw the new piece of racket
+	//	
+	method void incrementalDrawAdd(int direction) {
+		do Screen.setColor(true);
+		
+		if (direction > 0) {
+			do Screen.drawRectangle(x+sizeX, y, x+sizeX+direction-1, y+sizeY);
+		}
+		else {
+			do Screen.drawRectangle(x+direction+1, y, x, y+sizeY);
+		}
+		
+		return;
+	}
+  
+}

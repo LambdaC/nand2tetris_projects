@@ -1,0 +1,424 @@
+function CollisionDetection.myBulletAndEnemyDetection 4
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+push argument 0
+call BulletContainer.size 1
+push constant 0
+eq
+push argument 1
+call EnemyContainer.size 1
+or
+push constant 0
+eq
+not
+if-goto L0
+push constant 0
+return
+label L0
+label L2
+push local 0
+push argument 0
+call BulletContainer.maxSize 1
+lt
+not
+if-goto L3
+push argument 0
+push local 0
+call BulletContainer.getBullet 2
+pop local 2
+push local 2
+push constant 0
+eq
+not
+not
+if-goto L4
+label L6
+push local 1
+push argument 1
+call EnemyContainer.maxSize 1
+lt
+not
+if-goto L7
+push argument 1
+push local 1
+call EnemyContainer.getEnemy 2
+pop local 3
+push local 3
+push constant 0
+eq
+not
+not
+if-goto L8
+push local 2
+call Bullet.getRow 1
+push local 2
+call Bullet.getCol 1
+push local 2
+call Bullet.getWidth 1
+push local 2
+call Bullet.getHeight 1
+push local 3
+call Enemy.getRow 1
+push local 3
+call Enemy.getCol 1
+push local 3
+call Enemy.getWidth 1
+push local 3
+call Enemy.getHeight 1
+call CollisionDetection.isCollided 8
+not
+if-goto L10
+push local 2
+call Bullet.setKilled 1
+pop temp 0
+push local 3
+call Enemy.setKilled 1
+pop temp 0
+label L10
+label L8
+push local 1
+push constant 1
+add
+pop local 1
+goto L6
+label L7
+label L4
+push local 0
+push constant 1
+add
+pop local 0
+goto L2
+label L3
+push constant 0
+return
+function CollisionDetection.myBulletAndEnemyBulletDetection 4
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+push argument 0
+call BulletContainer.size 1
+push constant 0
+eq
+push argument 1
+call BulletContainer.size 1
+or
+push constant 0
+eq
+not
+if-goto L12
+push constant 0
+return
+label L12
+label L14
+push local 0
+push argument 0
+call BulletContainer.maxSize 1
+lt
+not
+if-goto L15
+push argument 0
+push local 0
+call BulletContainer.getBullet 2
+pop local 2
+push local 2
+push constant 0
+eq
+not
+not
+if-goto L16
+label L18
+push local 1
+push argument 1
+call BulletContainer.maxSize 1
+lt
+not
+if-goto L19
+push argument 1
+push local 1
+call BulletContainer.getBullet 2
+pop local 3
+push local 3
+push constant 0
+eq
+not
+not
+if-goto L20
+push local 2
+call Bullet.getCol 1
+push local 3
+call Bullet.getCol 1
+eq
+not
+if-goto L22
+push local 2
+call Bullet.getRow 1
+push local 3
+call Bullet.getRow 1
+gt
+push local 2
+call Bullet.getRow 1
+and
+push local 3
+call Bullet.getRow 1
+push local 3
+call Bullet.getHeight 1
+add
+lt
+not
+if-goto L24
+push local 2
+call Bullet.setKilled 1
+pop temp 0
+push local 3
+call Bullet.setKilled 1
+pop temp 0
+label L24
+label L22
+label L20
+push local 1
+push constant 1
+add
+pop local 1
+goto L18
+label L19
+label L16
+push local 0
+push constant 1
+add
+pop local 0
+goto L14
+label L15
+push constant 0
+return
+function CollisionDetection.aircraftAndBulletDetection 4
+push argument 1
+call BulletContainer.size 1
+push constant 0
+eq
+not
+if-goto L26
+push constant 0
+return
+label L26
+push constant 0
+pop local 0
+label L28
+push local 0
+push argument 1
+call BulletContainer.maxSize 1
+lt
+not
+if-goto L29
+push argument 1
+push local 0
+call BulletContainer.getBullet 2
+pop local 1
+push local 1
+push constant 0
+eq
+not
+not
+if-goto L30
+push argument 0
+call Aircraft.getRow 1
+push argument 0
+call Aircraft.getCol 1
+push argument 0
+call Aircraft.getWidth 1
+push argument 0
+call Aircraft.getHeight 1
+push local 1
+call Bullet.getRow 1
+push local 1
+call Bullet.getCol 1
+push local 1
+call Bullet.getWidth 1
+push local 1
+call Bullet.getHeight 1
+call CollisionDetection.isCollided 8
+not
+if-goto L32
+push argument 0
+call Aircraft.setKilled 1
+pop temp 0
+push local 1
+call Bullet.setKilled 1
+pop temp 0
+push constant 0
+return
+label L32
+label L30
+push local 0
+push constant 1
+add
+pop local 0
+goto L28
+label L29
+push constant 0
+return
+function CollisionDetection.aircraftAndEnemyDetection 2
+push argument 1
+call EnemyContainer.size 1
+push constant 0
+eq
+not
+if-goto L34
+push constant 0
+return
+label L34
+push constant 0
+pop local 0
+label L36
+push local 0
+push argument 1
+call EnemyContainer.maxSize 1
+lt
+not
+if-goto L37
+push argument 1
+push local 0
+call EnemyContainer.getEnemy 2
+pop local 1
+push local 1
+push constant 0
+eq
+not
+not
+if-goto L38
+push argument 0
+call Aircraft.getRow 1
+push argument 0
+call Aircraft.getCol 1
+push argument 0
+call Aircraft.getWidth 1
+push argument 0
+call Aircraft.getHeight 1
+push local 1
+call Enemy.getRow 1
+push local 1
+call Enemy.getCol 1
+push local 1
+call Enemy.getWidth 1
+push local 1
+call Enemy.getHeight 1
+call CollisionDetection.isCollided 8
+not
+if-goto L40
+push argument 0
+call Aircraft.setKilled 1
+pop temp 0
+push local 1
+call Enemy.setKilled 1
+pop temp 0
+push constant 0
+return
+label L40
+label L38
+push local 0
+push constant 1
+add
+pop local 0
+goto L36
+label L37
+push constant 0
+return
+function CollisionDetection.isCollided 0
+push argument 0
+push argument 4
+eq
+push argument 0
+or
+push argument 4
+lt
+push argument 4
+push argument 0
+push argument 3
+add
+eq
+push argument 4
+or
+push argument 0
+push argument 3
+add
+lt
+and
+not
+if-goto L42
+push argument 1
+push argument 5
+eq
+push argument 1
+or
+push argument 5
+lt
+push argument 5
+push argument 1
+push argument 2
+add
+eq
+push argument 5
+or
+push argument 1
+push argument 2
+add
+lt
+and
+not
+if-goto L44
+push constant 1
+neg
+return
+label L44
+label L42
+push argument 4
+push argument 0
+eq
+push argument 4
+or
+push argument 0
+lt
+push argument 0
+push argument 4
+push argument 7
+add
+eq
+push argument 0
+or
+push argument 4
+push argument 7
+add
+lt
+and
+not
+if-goto L46
+push argument 5
+push argument 1
+eq
+push argument 5
+or
+push argument 1
+lt
+push argument 1
+push argument 5
+push argument 6
+add
+eq
+push argument 1
+or
+push argument 5
+push argument 6
+add
+lt
+and
+not
+if-goto L48
+push constant 1
+neg
+return
+label L48
+label L46
+push constant 0
+return

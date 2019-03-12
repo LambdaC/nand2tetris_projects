@@ -1,0 +1,95 @@
+class Aircraft {
+	field int row, col;
+	field int width, height;
+	field boolean isDead;
+
+	constructor Aircraft new() {
+		do initData();
+		return this;
+	}
+
+	method void initData(){
+		let row = 200;
+		let col = 112;
+		let width = 24;
+		let height = 20;
+		let isDead = false;
+		return;
+	}
+	
+	/** display the object on the screen */
+	method void render() {
+		do Render.renderAircraft(row, col);
+		return;
+	}
+	
+	/** should clear aircraft before move */ 
+	method void clearAircraft() {
+		do Render.clearArea(col, row, col + width, row + height);
+		return;
+	}
+	
+	/** direction : 1-Up, 2-Down, 3-left, 4-right */
+	method void move(int direction) {
+		do clearAircraft();
+		if(direction = 1) {
+			let row = row - 16;
+			if(row < 16){
+				let row = 16;
+			}
+		}
+		
+		if(direction = 2) {
+			let row = row + 16;
+			if((row + height) > 255 ) {
+				let row = 255 - height;
+			}
+		}
+		
+		if(direction = 3) {
+			let col = col - 16;
+			if(col < 0) {
+				let col = 0;
+			}
+		}
+		
+		if(direction = 4) {
+			let col = col + 16;
+			if(col > 288){
+				let col = 288;
+			}
+		}
+		do render();
+		return;
+	}
+
+	method int getRow() {
+		return row;
+	}
+
+	method int getCol() {
+		return col;
+	}
+
+	method int getWidth() {
+		return width;
+	}
+
+	method int getHeight() {
+		return height;
+	}
+	
+	method boolean isDead(){
+		return isDead;
+	}
+	
+	method void setKilled(){
+		let isDead = true;
+		return;
+	}
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+}

@@ -1,0 +1,17 @@
+class GameState{
+	function int Inited(){
+		return 0;
+	}
+	
+	function int Running(){
+		return 1;
+	}
+	
+	function int Paused(){
+		return 2;
+	}
+	
+	function int Over(){
+		return 3;
+	}
+}

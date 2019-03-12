@@ -1,0 +1,224 @@
+//recreation of Google Chrome Offline Game
+
+class Game {
+    field Character player;
+    field Score score;
+    field boolean quit;
+    field String string1;
+    field String string2;
+    field Obstacles obstacles;
+
+    constructor Game new() {
+        let player = Character.new();
+        let obstacles = Obstacles.new();
+        let score = Score.new();
+        
+        //set quit to false to initialize loop
+        let quit = false;
+
+        //strings stored to avoid heap overflow
+        let string1 = "You Lose!";
+        let string2 = "To retry press 'R', To quit press 'Q'";
+        
+        return this;
+    }
+
+    method void run() {
+        //key pressed
+        var Char key;
+
+
+        //start screen
+        var boolean start;
+
+        //speed of obstacles
+        var int speed;
+
+        //used for loops
+        var int i;
+
+        //Object position
+        var int Ox;
+        var int Oy;
+
+        //Player position
+        var int Px;
+        var int Py;
+
+        //initial speed
+        let speed = 0;
+
+        //object Y is constant
+        let Oy = 207;
+
+        //Start Screen
+        do Output.moveCursor(5, 25);
+        do Output.printString("Dinosaur Run");
+        do Output.moveCursor(10, 20);
+        do Output.printString("To start, press 'space'");
+        do Output.moveCursor(11, 22);
+        do Output.printString("To quit, press 'q'");
+        let start = false;
+        while(~start) {
+            let key = Keyboard.keyPressed();
+            if(key = 32) { //space
+                do Screen.clearScreen();
+                let start = true;
+            }
+            if(key = 81) {
+                let quit = true;
+                let start = true;
+            }
+        }
+
+        //draw ground
+        do Screen.setColor(true);
+        do Screen.drawRectangle(0, 223, 511, 255);
+
+
+        //game loop
+        while(~quit) {
+
+            //get key pressed
+            let key = Keyboard.keyPressed();
+            if(key = 32) { //space
+                do player.jump();
+            }
+            if(key = 82) { //r
+                do reset();
+            }
+            if(key = 81) { //q
+                let quit = true;
+            }
+
+            //CLEAR SPRITES AND SCORE
+            
+            //clear player
+            do player.clear();
+            //clear score
+            do score.clear();
+            //clear obstacle
+            do obstacles.clear();
+
+            //UPDATE POSITIONS, SCORE, and SPEED
+
+            //update player position
+            do player.update();
+
+            //update obstacle positions
+            do obstacles.update();
+
+            //update score
+                do score.update();
+
+            //update speed
+            if(speed = 100) {
+                do obstacles.changeSpeedMultiple(3, false);
+                let speed = 0;
+            }
+            let speed = speed + 1;
+
+            //DRAW SPRITES AND SCORE
+
+            //draw player
+            do player.draw();
+
+            //draw obstacles
+            do obstacles.draw();
+
+            //draw score
+            do score.draw();
+
+            //check collision
+            let i = 0;
+            let Px = player.getX();
+            let Py = player.getY();
+            while(i < 4) {
+                let Ox = obstacles.getX(i);
+                if(Oy - Py < 28) {
+                    if(Ox - Px < 41) {
+                        if(Px - Ox < 17) {
+                            do lost();
+                        }
+                    }
+                }
+                let i = i + 1;
+            }
+            
+            //wait
+            do Sys.wait(40);
+            
+        }
+
+        if(quit) {
+            do quit();
+        }
+
+        return;
+    }
+
+    method void quit() {
+        //dispose all objects
+        do score.dispose();
+        do obstacles.dispose();
+        do player.dispose();
+        do dispose();
+        //clear screen
+        do Screen.clearScreen();
+        return;
+    }
+
+    method void lost() {
+        var char key;
+
+        //clear all text
+        do Screen.setColor(false);
+        do Screen.drawRectangle(0, 0, 511, 60);
+        //Print Lost Screen Message
+        do Output.moveCursor(6, 26);
+        do Output.printString(string1);
+        do Output.moveCursor(8, 12);
+        do Output.printString(string2);
+
+        //Wait for input from user
+        while(~quit) {
+            let key = Keyboard.keyPressed();
+            if(key = 82) { //r
+
+                do reset();
+
+                //clear all text
+                do Screen.setColor(false);
+                do Screen.drawRectangle(0, 0, 511, 140);
+                //reset cursor
+                do Output.moveCursor(0,0);
+
+                //go back to game loop
+                return;
+            }
+            if(key = 81) { //q
+                let quit = true;
+            }
+        }
+        return;
+    }
+
+    method void reset() {
+        //reset player
+        do player.reset();
+
+        //reset score
+        do score.reset();
+
+        //reset obstacles
+        do obstacles.reset();
+
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    
+}

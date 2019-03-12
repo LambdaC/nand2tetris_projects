@@ -1,0 +1,132 @@
+class CollisionDetection {
+	function void myBulletAndEnemyDetection(BulletContainer myBullets, EnemyContainer enemies){
+		var int index1, index2;
+		var Bullet bullet;
+		var Enemy enemy;
+		let index1 = 0;
+		let index2 = 0;
+		
+		if(myBullets.size() = 0 | enemies.size() = 0){
+			return;
+		}
+		
+		while(index1 < myBullets.maxSize()) {
+			let bullet = myBullets.getBullet(index1);
+			if(~(bullet = null)) {
+				while (index2 < enemies.maxSize()) {
+					let enemy = enemies.getEnemy(index2);
+					if(~(enemy = null)){
+						if(CollisionDetection.isCollided(bullet.getRow(),bullet.getCol(),bullet.getWidth(),bullet.getHeight(), enemy.getRow(), enemy.getCol(), enemy.getWidth(),enemy.getHeight())){
+							do bullet.setKilled();
+							do enemy.setKilled();
+						}
+					}
+					let index2 = index2 + 1;
+				}
+			}
+			let index1 = index1 + 1;
+		}
+		return;
+	}
+	
+	function void myBulletAndEnemyBulletDetection(BulletContainer myBullets, BulletContainer enemyBullets){
+		var int index1, index2;
+		var Bullet myBullet;
+		var Bullet enemyBullet;
+		
+		let index1 = 0;
+		let index2 = 0;
+		
+		if(myBullets.size() = 0 | enemyBullets.size() = 0){
+			return;
+		}
+		
+		while(index1 < myBullets.maxSize()) {
+			let myBullet = myBullets.getBullet(index1);
+			if(~(myBullet = null)) {
+				while (index2 < enemyBullets.maxSize()) {
+					let enemyBullet = enemyBullets.getBullet(index2);
+					if(~(enemyBullet = null)) {
+						if(myBullet.getCol() = enemyBullet.getCol()){
+							if(myBullet.getRow() > enemyBullet.getRow() & myBullet.getRow() < (enemyBullet.getRow() + enemyBullet.getHeight())){
+								do myBullet.setKilled();
+								do enemyBullet.setKilled();
+							}
+						}
+					}
+					let index2 = index2 + 1;
+				}
+			}
+			let index1 = index1 + 1;
+		}
+		return;
+	}
+	
+	function void aircraftAndBulletDetection(Aircraft player, BulletContainer enemyBullets){
+		var int index;
+		var Bullet bullet;
+		var int size, maxSize;
+		
+		if(enemyBullets.size() = 0) {
+			return;
+		}
+		
+		let index = 0;
+		while(index < enemyBullets.maxSize()) {
+			let bullet =  enemyBullets.getBullet(index);
+			if(~(bullet = null)) {
+				if(CollisionDetection.isCollided(player.getRow(), player.getCol(), player.getWidth(), player.getHeight(), bullet.getRow(), bullet.getCol(), bullet.getWidth(), bullet.getHeight())){
+					do player.setKilled();
+					do bullet.setKilled();
+					return;
+				}
+			}
+			
+			let index = index + 1;
+		}
+		return;
+	}
+	
+	function void aircraftAndEnemyDetection(Aircraft player, EnemyContainer enemies){
+		var int index;
+		var Enemy enemy;
+		
+		if(enemies.size() = 0) {
+			return;
+		}
+		let index = 0;
+		while(index < enemies.maxSize()) {
+			let enemy =  enemies.getEnemy(index);
+			if(~(enemy = null)) {
+				if(CollisionDetection.isCollided(player.getRow(), player.getCol(), player.getWidth(), player.getHeight(), enemy.getRow(), enemy.getCol(), enemy.getWidth(), enemy.getHeight())){
+					do player.setKilled();
+					do enemy.setKilled();
+					return;
+				}
+			}
+			
+			let index = index + 1;
+		}
+		return;
+	}
+	
+	function boolean isCollided(int row1, int col1, int width1, int height1, int row2, int col2, int width2, int height2) {
+		// row1 <= row2 <= row1 + height1
+		if((row1 = row2 | row1 < row2) & (row2= (row1 + height1)| row2 < (row1 + height1))){
+			// col1 <= col2 <= col1 + width1
+			if((col1 = col2 | col1 < col2) & (col2= (col1 + width1) | col2 < (col1 + width1))){
+				return true;
+			}
+		}
+		
+		// row2 <= row1 <= row2 + height2
+		if((row2 = row1 | row2 < row1) & (row1 = (row2 + height2)| row1 < (row2 + height2))){
+			// col2 <= col1 <= col2 + width2
+			if((col2 = col1 | col2 < col1) & (col1 = (col2 + width2) | col1 < (col2 + width2))){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+}

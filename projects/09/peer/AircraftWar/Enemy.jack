@@ -1,0 +1,94 @@
+class Enemy {
+	field int row, col;
+	field int width, height;
+	field boolean isDead;
+	field boolean isKilled;  // if is killed by player;
+	
+	field int shootSpeed;
+	
+	constructor Enemy new(int initRow, int initCol) {
+		do initData();
+		let row = initRow;
+		let col = initCol;
+		return this;
+	}
+	
+	method void initData(){
+		let width = 24;
+		let height = 20;
+		let shootSpeed = 0;
+		let isDead = false;
+		let isKilled = false;
+		return;
+	}
+	
+	/** display the object on the screen */
+	method void render() {
+		do Render.renderEnemy(row, col);
+		return;
+	}
+	
+	/** should clear enemy before move */ 
+	method void clearEnemy() {
+		do Render.clearArea(col, row, col + width, row + height);
+		return;
+	}
+	
+	method void move() {
+		do clearEnemy();
+		let row = row + 1;
+		if((row + height) > 255) {
+			let row = 255 - height;
+			let isDead = true;
+		}
+		
+		do render();
+		return;
+	}
+	
+	method boolean isDead() {
+		return isDead;
+	}
+	
+	method int getRow() {
+		return row;
+	}
+
+	method int getCol() {
+		return col;
+	}
+
+	method int getWidth() {
+		return width;
+	}
+
+	method int getHeight() {
+		return height;
+	}
+	
+	method boolean isKilled() {
+		return isKilled;
+	}
+	
+	method void setKilled() {
+		let isKilled = true;
+		let isDead = true;
+		return;
+	}
+	
+	method boolean canShoot() {
+		if(shootSpeed = GameConfig.enemyShootSpeed()){
+			let shootSpeed = 0;
+			return true;
+		}
+		
+		let shootSpeed = shootSpeed + 1;
+		return false;
+	}
+	
+	method void dispose() {
+		do clearEnemy();
+		do Memory.deAlloc(this);
+		return;
+	}
+}

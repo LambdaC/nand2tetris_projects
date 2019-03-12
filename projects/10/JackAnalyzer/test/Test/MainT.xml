@@ -1,0 +1,24 @@
+<tokens>
+<keyword>class</keyword>
+<identifier>Main</identifier>
+<symbol>{</symbol>
+<keyword>function</keyword>
+<identifier>String</identifier>
+<identifier>main</identifier>
+<symbol>(</symbol>
+<symbol>)</symbol>
+<symbol>{</symbol>
+<keyword>do</keyword>
+<identifier>Output</identifier>
+<symbol>.</symbol>
+<identifier>printString</identifier>
+<symbol>(</symbol>
+<stringConstant>The average is </stringConstant>
+<symbol>)</symbol>
+<symbol>;</symbol>
+<keyword>return</keyword>
+<stringConstant>aaa</stringConstant>
+<symbol>;</symbol>
+<symbol>}</symbol>
+<symbol>}</symbol>
+</tokens>

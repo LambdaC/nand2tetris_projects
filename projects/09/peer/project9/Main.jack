@@ -1,0 +1,15 @@
+// This is the main class.
+//
+// The only thing it does is that it enters the main game loop.
+//
+
+class Main {
+   function void main() {
+      var Game game;
+      
+      let game = Game.new();
+      do game.loop();
+
+      return;
+   }
+}

@@ -1,0 +1,184 @@
+function Aircraft.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+call Aircraft.initData 1
+pop temp 0
+push pointer 0
+return
+function Aircraft.initData 0
+push argument 0
+pop pointer 0
+push constant 200
+pop this 0
+push constant 112
+pop this 1
+push constant 24
+pop this 2
+push constant 20
+pop this 3
+push constant 0
+pop this 4
+push constant 0
+return
+function Aircraft.render 0
+push argument 0
+pop pointer 0
+push this 0
+push this 1
+call Render.renderAircraft 2
+pop temp 0
+push constant 0
+return
+function Aircraft.clearAircraft 0
+push argument 0
+pop pointer 0
+push this 1
+push this 0
+push this 1
+push this 2
+add
+push this 0
+push this 3
+add
+call Render.clearArea 4
+pop temp 0
+push constant 0
+return
+function Aircraft.move 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Aircraft.clearAircraft 1
+pop temp 0
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push constant 16
+sub
+pop this 0
+push this 0
+push constant 16
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 16
+pop this 0
+label IF_FALSE1
+label IF_FALSE0
+push argument 1
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push constant 16
+add
+pop this 0
+push this 0
+push this 3
+add
+push constant 255
+gt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 255
+push this 3
+sub
+pop this 0
+label IF_FALSE3
+label IF_FALSE2
+push argument 1
+push constant 3
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 1
+push constant 16
+sub
+pop this 1
+push this 1
+push constant 0
+lt
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+pop this 1
+label IF_FALSE5
+label IF_FALSE4
+push argument 1
+push constant 4
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 1
+push constant 16
+add
+pop this 1
+push this 1
+push constant 288
+gt
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 288
+pop this 1
+label IF_FALSE7
+label IF_FALSE6
+push pointer 0
+call Aircraft.render 1
+pop temp 0
+push constant 0
+return
+function Aircraft.getRow 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Aircraft.getCol 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Aircraft.getWidth 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Aircraft.getHeight 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Aircraft.isDead 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Aircraft.setKilled 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+pop this 4
+push constant 0
+return
+function Aircraft.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

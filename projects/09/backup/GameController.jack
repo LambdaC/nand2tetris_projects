@@ -1,0 +1,397 @@
+class GameController {
+	field int gameState;
+	field int keyPressed;
+	field boolean isGameOver;
+	field int score;
+
+	field int movingLineSpeed;
+	field int moveSpeed;
+	field int enemyMoveSpeed;
+	field int enemySpawnSpeed;
+	field int shootSpeed;
+	field int bulletSpeed;
+	field int enemyBulletSpeed;
+	
+	field int enemySpawnCol;
+	field int randomNumber;
+	
+	field Aircraft player;
+	field BulletContainer myBullets;
+	field BulletContainer enemyBullets;
+	field EnemyContainer enemies;
+	
+	constructor GameController new() {
+		let movingLineSpeed = GameConfig.movingLineSpeed();
+		let moveSpeed = GameConfig.moveSpeed();
+		let enemyMoveSpeed = 0;
+		let enemyMoveSpeed = 0;
+		let enemySpawnCol = 0;
+		let randomNumber = 0;
+		let bulletSpeed = 0;
+		let enemyBulletSpeed = 0;
+		let shootSpeed = 0;
+		
+		let score = 0;
+		let isGameOver = false;
+		let myBullets = BulletContainer.new(GameConfig.maxBullets());
+		let enemies = EnemyContainer.new(GameConfig.maxEnemies());
+		let enemyBullets = BulletContainer.new(GameConfig.maxEnemyBullets());
+		
+		do MovingLineRender.init();
+		return this;
+	}
+	
+	method void init() {
+		var String info1;
+		var String info2;
+		let info1 = "Aircraft War";
+		let info2 = "Press s to start";
+		do Screen.clearScreen();
+		do Render.renderInfo(10, 10, info1);
+		do Render.renderInfo(11, 10, info2);
+		do Render.renderTips();
+		do Render.renderScore(0);
+		do createPlayer();
+		let gameState = GameState.Inited();
+		do info1.dispose();
+		do info2.dispose();
+		return;
+	}
+	
+	method boolean isGameOver() {
+		return isGameOver;
+	}
+	
+	method void handleGame() {
+		do handleInput();
+		if(gameState = GameState.Inited()) {
+			do drawMovingLine();
+			return;
+		}
+		if(gameState = GameState.Running()) {
+			do drawMovingLine();
+			do handleMove();
+			do handleBullets();
+			do spawnEnemies();
+			do handleEnemies();
+			do handleEnemyBullets();
+			do collisionDetection();
+			do handlePlayer();
+			return;
+		}
+		if(gameState = GameState.Paused()) {
+			return;
+		}
+		
+		if(gameState = GameState.Over()) {
+			do init();
+		}
+		
+		return;
+	}
+	
+	method void over() {
+		return;
+	}
+	
+	method void createPlayer() {
+		if(~(player = null)) {
+			do player.dispose();
+		}
+		let player = Aircraft.new();
+		do player.render();
+		return;
+	}
+	
+	method void handlePlayer() {
+		var String info;
+		do Render.renderScore(score);
+		if (player.isDead()) {
+			let gameState = GameState.Over();
+			do clearAllObjects();
+			let info = "Game Over!";
+			do Render.renderInfo(10,13, info);
+			do info.dispose();
+			do Sys.wait(3000);
+		}
+		return;
+	}
+	
+	method void clearAllObjects () {
+		var Bullet bullet;
+		var Enemy enemy;
+		var int index;
+		
+		do player.clearAircraft();
+		
+		if(~(myBullets.size() = 0)) {
+			let index = 0;
+			while(index < myBullets.maxSize()){
+				let bullet = myBullets.getBullet(index);
+				if(~(bullet = null)){
+					do myBullets.removeBullet(index);
+				}
+				let index = index + 1;
+			}
+		}
+		
+		if(~(enemyBullets.size() = 0)) {
+			let index = 0;
+			while(index < enemyBullets.maxSize()){
+				let bullet = enemyBullets.getBullet(index);
+				if(~(bullet = null)){
+					do enemyBullets.removeBullet(index);
+				}
+				let index = index + 1;
+			}
+		}
+		
+		if(~(enemies.size() = 0)){
+			let index = 0;
+			while(index < enemies.maxSize()) {
+				let enemy = enemies.getEnemy(index);
+				if(~(enemy = null)){
+					do enemies.removeEnemy(index);
+				}
+				let index = index + 1;
+			}
+		}
+		return;
+	}
+	
+	method void handleMove() {
+		if(moveSpeed = 0) {
+			let moveSpeed = GameConfig.moveSpeed();
+			
+			if(keyPressed = 131) {		//Up
+				do player.move(1);
+				let randomNumber = randomNumber + 1;
+			}
+		
+			if(keyPressed = 133) {		//Down
+				do player.move(2);
+				let randomNumber = randomNumber + 2;
+			}
+			
+			if(keyPressed = 130) {		//Left
+				do player.move(3);
+				let randomNumber = randomNumber + 3;
+			}
+			
+			if(keyPressed = 132) {		//Right
+				do player.move(4);
+				let randomNumber = randomNumber + 4;
+			}
+		}
+		
+		let moveSpeed = moveSpeed - 1;
+		return;
+	}
+	
+	method void handleInput() {
+		var String info;
+		let keyPressed = Keyboard.keyPressed();
+		if (keyPressed = 81)  { let isGameOver = true; }    // q key to exit game
+		if (keyPressed = 80) {								// p key to parse/resume game
+			if(gameState = GameState.Running()) {
+				let info = "Paused";
+				do Render.renderInfo(10,15, info);
+				let gameState = GameState.Paused();
+				do info.dispose();
+				return;
+			}
+			if(gameState = GameState.Paused()) {
+				do Render.clearArea(70,100, 210,140); 
+				let gameState = GameState.Running();
+				return;
+			}
+		}
+		if(keyPressed = 83) {								// s key to start game
+			if(gameState = GameState.Inited()){
+				do Render.clearArea(70,100, 210,140); 
+				let gameState = GameState.Running();
+			}
+		}
+		if(keyPressed = 32) {								// space key to shoot
+			if(gameState = GameState.Running()){
+				do handleShoot();
+			}
+		}
+		return;
+	}
+	
+	method void handleShoot() {
+		var Bullet bullet;
+		if(myBullets.size() = myBullets.maxSize()) {
+			return;
+		}
+		if(shootSpeed = GameConfig.shootSpeed()){
+			let shootSpeed = 0;
+			let bullet = Bullet.new(player.getRow() - 8,player.getCol() + 11,1);
+			do myBullets.addBullet(bullet);
+		}
+		
+		let shootSpeed = shootSpeed + 1;
+		
+		return;
+	}
+	
+	//=====================================================================================
+	// Bullets
+	method void handleBullets() {
+		var Bullet bullet;
+		var int index, maxSize,size;
+		let index = 0;
+		let maxSize =  myBullets.maxSize();
+		let size = myBullets.size();
+		if(size = 0) {
+			return;
+		}
+		if(bulletSpeed = GameConfig.bulletSpeed()) {
+			let bulletSpeed = 0;
+			while(index < maxSize) {
+				let bullet = myBullets.getBullet(index);
+				if(~(bullet = null)){
+					if(bullet.isDead()) {
+						do myBullets.removeBullet(index);
+					}else{
+						do bullet.move();
+					}
+				}
+				let index = index + 1;
+			}
+		}
+		let bulletSpeed = bulletSpeed + 1;
+		return;
+	}
+	
+	method void handleEnemyBullets() {
+		var Bullet bullet;
+		var int index, maxSize,size;
+		let index = 0;
+		let maxSize =  enemyBullets.maxSize();
+		let size = enemyBullets.size();
+		if(size = 0){
+			return;
+		}
+		if(enemyBulletSpeed = GameConfig.bulletSpeed()){
+			let enemyBulletSpeed = 0;
+			while(index < maxSize) {
+				let bullet = enemyBullets.getBullet(index);
+				if(~(bullet = null)){
+					if(bullet.isDead()) {
+						do enemyBullets.removeBullet(index);
+					}else{
+						do bullet.move();
+					}
+				}
+				let index = index + 1;
+			}
+		}
+		let enemyBulletSpeed = enemyBulletSpeed + 1;
+		return;
+	}
+	
+	//====================================================================================
+	// Enemies
+	method void spawnEnemies() {
+		var int size;
+		var int maxSize;
+		var Enemy enemy;
+		let size =  enemies.size();
+		let maxSize = enemies.maxSize();
+		if(size = maxSize) {
+			return;
+		}
+		if(enemySpawnSpeed = GameConfig.enemySpawnSpeed()) {
+			let enemySpawnSpeed = 0;
+			let enemy = Enemy.new(0, getEnemySpawnCol() * 32);
+			do enemy.render();
+			do enemies.addEnemy(enemy);	
+		}
+		let enemySpawnSpeed =  enemySpawnSpeed + 1;
+		return;
+	}
+	
+	method int getEnemySpawnCol (){
+		var int col;
+		var int tmp;
+		let enemySpawnCol = enemySpawnCol + 1;
+		let col = enemySpawnCol + randomNumber;
+		let col = col * 3;
+		let tmp = col / 10;
+		let col = col - (tmp * 10);
+		if(enemySpawnCol = 10){
+			let enemySpawnCol = 0;
+		}
+		if(randomNumber = 1000) {
+			let randomNumber = 0;
+		}
+		return col;
+	}
+	
+	method void handleEnemies() {
+		var int size;
+		var int maxSize;
+		var int index;
+		var Enemy enemy;
+		var Bullet bullet;
+		let index = 0;
+		let size = enemies.size();
+		let maxSize = enemies.maxSize();
+		if(size = 0) {
+			return;
+		}
+		if(enemyMoveSpeed = 0){
+			let enemyMoveSpeed = GameConfig.enemyMoveSpeed();
+			while(index < maxSize) {
+				let enemy = enemies.getEnemy(index);
+				if(~(enemy = null)) {
+					if(enemy.isDead()){
+						if(enemy.isKilled()) {
+							let score = score + 1;
+						}
+						do enemies.removeEnemy(index);
+					}else{
+						do enemy.move();
+						if(enemy.canShoot()) {
+							if(enemyBullets.size() < enemyBullets.maxSize()){
+								let bullet = Bullet.new(enemy.getRow()+20,enemy.getCol() + 11,2);
+								do enemyBullets.addBullet(bullet);
+							}
+						}
+					}	
+				}
+				let index = index + 1;
+			}
+		}
+		let enemyMoveSpeed = enemyMoveSpeed - 1;
+		return;
+	}
+	
+	//====================================================================================
+	//Collision Detection
+	method void collisionDetection() {
+		do CollisionDetection.myBulletAndEnemyDetection(myBullets, enemies);
+		do CollisionDetection.myBulletAndEnemyBulletDetection(myBullets, enemyBullets);
+		do CollisionDetection.aircraftAndBulletDetection(player, enemyBullets);
+		do CollisionDetection.aircraftAndEnemyDetection(player, enemies);
+		return;
+	}
+	
+	//====================================================================================
+	method void drawMovingLine() {
+		if(movingLineSpeed = 0){
+			let movingLineSpeed = GameConfig.movingLineSpeed();
+			do MovingLineRender.drawMovingLine();
+		}
+		let movingLineSpeed = movingLineSpeed - 1;
+		return;
+	}
+	
+	method void dispose() {
+		do player.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+}

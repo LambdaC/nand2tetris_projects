@@ -1,0 +1,55 @@
+class MovingLineRender {
+	static int position;
+	
+	function void init() {
+		var int index;
+		let index = 0;
+		do Screen.setColor(true);
+		while(index < 255){
+			do Screen.drawLine(0, index, 0, index + 15);
+			do Screen.drawLine(312, index, 312, index + 15);
+			let index = index + 32;
+		}
+		let position = 0;
+		return;
+	}
+	
+	function void drawMovingLine() {
+		var int loopTime;
+		var int index;
+		let loopTime = 8;
+		let index = position;
+		do Screen.setColor(false);
+		
+		// erases a pixel
+		while(loopTime > 0) {
+			if(index > 255) {
+				let index = index - 255 - 1;
+			}
+			do Screen.drawPixel(0, index);
+			do Screen.drawPixel(312, index);
+			let index = index + 32;
+			let loopTime = loopTime - 1;
+		}
+		
+		// append a pixel
+		do Screen.setColor(true);
+		let loopTime = 8;
+		let index = position + 16;
+		while(loopTime > 0){
+			if(index > 255) {
+				let index = index - 255 - 1;
+			}
+			do Screen.drawPixel(0, index);
+			do Screen.drawPixel(312, index);
+			let index = index + 32;
+			let loopTime = loopTime - 1;
+		}
+		
+		let position = position + 1;
+		if(position > 255){
+			let position = position - 255 - 1;
+		}
+		return;
+	}
+}

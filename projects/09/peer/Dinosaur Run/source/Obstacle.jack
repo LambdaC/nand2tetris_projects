@@ -1,0 +1,91 @@
+//obstacle based on chrome offline game
+
+class Obstacle {
+    field int x, y;
+    field int vX;
+
+    constructor Obstacle new() {
+        let x = 0;
+        let y = 207;  //y position is constatn
+        let vX = 5;
+        return this;
+    }
+
+
+    //changes speed by set value or resets speed
+    method void changeSpeed(int speed, boolean reset) {
+        if(reset) {
+            let vX = 5;
+        } else {
+            let vX = vX + speed;
+        }
+        
+        return;
+    }
+
+    //changes position by speed value
+    method void update() {
+        let x = x - vX;
+        return;
+    }
+
+    method void setX(int Ax) {
+        let x = Ax;
+        return;
+    }
+
+    method int getX() {
+        return x;
+    }
+
+    //clears obstacle sprite from screen
+    method void clear() {
+        var int memAddress; 
+        let memAddress = 16384 + (x / 16) + (y * 32);
+        do Memory.poke(memAddress+0, 0);
+        do Memory.poke(memAddress+32, 0);
+        do Memory.poke(memAddress+64, 0);
+        do Memory.poke(memAddress+96, 0);
+        do Memory.poke(memAddress+128, 0);
+        do Memory.poke(memAddress+160, 0);
+        do Memory.poke(memAddress+192, 0);
+        do Memory.poke(memAddress+224, 0);
+        do Memory.poke(memAddress+256, 0);
+        do Memory.poke(memAddress+288, 0);
+        do Memory.poke(memAddress+320, 0);
+        do Memory.poke(memAddress+352, 0);
+        do Memory.poke(memAddress+384, 0);
+        do Memory.poke(memAddress+416, 0);
+        do Memory.poke(memAddress+448, 0);
+        do Memory.poke(memAddress+480, 0);
+        return;
+    }
+
+    //draws obstacle sprite on screen
+    method void draw() {
+        var int memAddress; 
+        let memAddress = 16384 + (x / 16) + (y * 32);
+        do Memory.poke(memAddress+0, 448);
+        do Memory.poke(memAddress+32, 13280);
+        do Memory.poke(memAddress+64, 31712);
+        do Memory.poke(memAddress+96, 31712);
+        do Memory.poke(memAddress+128, 31712);
+        do Memory.poke(memAddress+160, 31718);
+        do Memory.poke(memAddress+192, 32751);
+        do Memory.poke(memAddress+224, 32751);
+        do Memory.poke(memAddress+256, 16367);
+        do Memory.poke(memAddress+288, 1023);
+        do Memory.poke(memAddress+320, 1023);
+        do Memory.poke(memAddress+352, 1022);
+        do Memory.poke(memAddress+384, 1016);
+        do Memory.poke(memAddress+416, 992);
+        do Memory.poke(memAddress+448, 992);
+        do Memory.poke(memAddress+480, 992);
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

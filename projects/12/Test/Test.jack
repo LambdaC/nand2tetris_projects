@@ -1,0 +1,25 @@
+class Test {
+
+	field int x;
+	field int y;
+	
+	constructor Test new(){
+		let x = 1;
+		let y = 2;
+		return this;
+	}
+	
+	method void setX(int val) {
+		let x = val;
+		return;
+	}
+	
+	method int getX() {
+		return x;
+	}
+	
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
+}

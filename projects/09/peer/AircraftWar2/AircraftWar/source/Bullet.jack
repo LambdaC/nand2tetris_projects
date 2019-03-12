@@ -1,0 +1,83 @@
+class Bullet {
+	field int row, col;
+	field int width, height;
+	field int direction;
+	field boolean isDead;
+	
+	constructor Bullet new(int initRow, int initCol, int initDirection) {
+		let width = 1;
+		let height = 8;
+		let row = initRow;
+		let col = initCol;
+		let direction = initDirection;
+		let isDead = false;
+		return this;
+	}
+	
+	/** display the object on the screen */
+	method void render() {
+		do Screen.setColor(true);
+		do Screen.drawLine(col, row, col, row + height - 1);
+		return;
+	}
+	
+	method void move() {
+		if(direction = 1) {			// Up
+			let row = row - 1;
+			if(row < 0) {
+				let row = 0;
+				let isDead = true;
+			}
+			do Screen.setColor(false);
+			do Screen.drawPixel(col, (row + height));
+			do Screen.setColor(true);
+			do Screen.drawPixel(col, row);
+		}
+		
+		if(direction = 2) { 		// Down
+			let row = row + 1;
+			if((row + height) > 255){
+				let row = 255 - height;
+				let isDead = true;
+			}
+			do Screen.setColor(false);
+			do Screen.drawPixel(col, row);
+			do Screen.setColor(true);
+			do Screen.drawPixel(col, (row + height));
+		}
+		
+		return;
+	}
+	
+	method boolean isDead() {
+		return isDead;
+	}
+	
+	method void setKilled() {
+		let isDead = true;
+		return;
+	}
+	
+	method int getRow() {
+		return row;
+	}
+
+	method int getCol() {
+		return col;
+	}
+
+	method int getWidth() {
+		return width;
+	}
+
+	method int getHeight() {
+		return height;
+	}
+	
+	method void dispose() {
+		do Screen.setColor(false);
+		do Screen.drawLine(col, row, col, row + height);
+		do Memory.deAlloc(this);
+		return;
+	}
+}

@@ -1,0 +1,83 @@
+class EnemyRender {
+
+	function void drawEnemy(int row, int col) {
+		do EnemyRender.draw_left_top(row, col);
+		do EnemyRender.draw_right_top(row, col);
+		do EnemyRender.draw_left_bottom(row, col);
+		return;
+	}
+	
+	//left_top
+	function void draw_left_top(int row, int col) {
+		var int memAddress;
+		let memAddress = 16384 + (row*32) + (col / 16);
+		do Memory.poke(memAddress+0, 5120);
+		do Memory.poke(memAddress+32, 13824);
+		do Memory.poke(memAddress+64, -32);
+		do Memory.poke(memAddress+96, -13888);
+		do Memory.poke(memAddress+128, -13952);
+		do Memory.poke(memAddress+160, 27392);
+		do Memory.poke(memAddress+192, 13855);
+		do Memory.poke(memAddress+224, 5244);
+		do Memory.poke(memAddress+256, -10760);
+		do Memory.poke(memAddress+288, -2072);
+		do Memory.poke(memAddress+320, -2144);
+		do Memory.poke(memAddress+352, 30464);
+		do Memory.poke(memAddress+384, 15872);
+		do Memory.poke(memAddress+416, 5120);
+		do Memory.poke(memAddress+448, 5120);
+		do Memory.poke(memAddress+480, 5120);
+		return;
+	}
+	
+	//right_top
+	function void draw_right_top(int row, int col) {
+		var int value;
+		var int memAddress;
+		let memAddress = 16384 + (row*32) + ((col + 16)/ 16);
+		let value = Memory.peek(memAddress+64);
+		let value = value & -256;
+		do Memory.poke(memAddress+64, value+3);
+		
+		let value = Memory.peek(memAddress+96);
+		let value = value & -256;
+		do Memory.poke(memAddress+96, value+1);
+		
+		let value = Memory.peek(memAddress+192);
+		let value = value & -256;
+		do Memory.poke(memAddress+192, value+124);
+		
+		let value = Memory.peek(memAddress+224);
+		let value = value & -256;
+		do Memory.poke(memAddress+224, value+31);
+		
+		let value = Memory.peek(memAddress+256);
+		let value = value & -256;
+		do Memory.poke(memAddress+256, value+15);
+		
+		let value = Memory.peek(memAddress+288);
+		let value = value & -256;
+		do Memory.poke(memAddress+288, value+11);
+		
+		let value = Memory.peek(memAddress+320);
+		let value = value & -256;
+		do Memory.poke(memAddress+320, value+2);
+		return;
+	}
+	
+	//left_bottom
+	function void draw_left_bottom(int row, int col) {
+		var int memAddress;
+		let memAddress = 16384 + ((row + 16)*32) + (col / 16);
+		do Memory.poke(memAddress+0, 7168);
+		do Memory.poke(memAddress+32, 2048);
+		do Memory.poke(memAddress+64, 2048);
+		do Memory.poke(memAddress+96, 2048);
+		return;
+	}
+	
+	//right_bottom
+	function void draw_right_bottom(int row, int col) {
+		return;
+	}
+}

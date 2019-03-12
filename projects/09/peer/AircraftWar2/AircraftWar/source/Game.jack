@@ -1,0 +1,25 @@
+class Game {
+	field GameController gameController;
+	
+	constructor Game new() {
+		let gameController = GameController.new();
+		return this;
+	}
+	
+	// run the game;
+	method void run() {
+		do gameController.init();
+		// game main loop
+		while(~gameController.isGameOver()){
+			do gameController.handleGame();
+		}
+		do gameController.over();
+		return;
+	}
+	
+	method void dispose(){
+		do gameController.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+}

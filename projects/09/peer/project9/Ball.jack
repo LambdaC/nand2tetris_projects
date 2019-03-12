@@ -1,0 +1,138 @@
+// This class represents the ball.
+//
+// It keeps its current coordinates and speed, handles drawing the ball
+// on the screen and manages its movement, including bouncing off the walls
+// and off the racket.
+//
+
+class Ball {
+	field int x;			// the current location of the ball, X coordinate
+	field int y;			// ...Y coordinate
+	field int size;			// ball size, both X and Y
+
+	field int speedX;		// current ball speed X direction, may be positive or negative
+	field int speedY;		// ...Y direction
+   
+	constructor Ball new(int ballSize) {
+		let x = 0;
+		let y = 0;
+		let size = ballSize;
+		let speedX = 1;
+		let speedY = 1;
+		
+		do initialDraw();
+		
+		return this;
+	}
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method int getX() {
+		return x;
+	}
+	
+	method int getSize() {
+		return size;
+	}
+	
+	// draw the complete ball in the start location
+	//
+	// later on we will only update the position incrementally
+	// i.e. remove a thin rectangle in from the place that the ball has just left
+	//   and draw a new thin rectangle in the place the ball is entering
+	//
+	method void initialDraw() {
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x, y, x + size, y + size);
+		
+		return;
+	}
+	
+	//	
+	// remove the piece of ball which disappeared
+	//	
+	method void incrementalDrawClear() {
+		do Screen.setColor(false);
+		
+		if (speedX > 0) {
+			do Screen.drawRectangle(x, y, x+speedX-1, y+size);
+		}
+		else {
+			do Screen.drawRectangle(x+size+speedX+1, y, x+size, y+size);
+		}
+		if (speedY > 0) {
+			do Screen.drawRectangle(x, y, x+size, y+speedY-1);
+		}
+		else {
+			do Screen.drawRectangle(x, y+size, x+size, y+size+speedY+1);
+		}
+		
+		return;
+	}
+	
+	//	
+	// draw the new piece of ball
+	//	
+	method void incrementalDrawAdd() {
+		do Screen.setColor(true);
+		
+		if (speedX > 0) {
+			do Screen.drawRectangle(x+size, y, x+size+speedX-1, y+size);
+		}
+		else {
+			do Screen.drawRectangle(x+speedX+1, y, x, y+size);
+		}
+		if (speedY > 0) {
+			do Screen.drawRectangle(x, y+size, x+size, y+size+speedY-1);
+		}
+		else {
+			do Screen.drawRectangle(x, y, x+size, y+speedY+1);
+		}
+		
+		return;
+	}
+	
+	method boolean move(Racket racket) {
+		do incrementalDrawClear();
+		
+		// move the (x,y) coordinates of the ball according to current speed
+		let x = x + speedX;
+		let y = y + speedY;
+		
+		do incrementalDrawAdd();
+		
+		return bounceIfNeeded(racket);
+	}
+	
+	method boolean bounceIfNeeded(Racket racket) {
+		// bounce from left
+		if (x = 0) {
+			let speedX = -speedX;
+		}
+
+		// bounce from top
+		if (y = 0) {
+			let speedY = -speedY;
+		}
+		
+		// bounce from right
+		if (x = (511 - size)) {
+			let speedX = -speedX;
+		}
+
+		// bounce from bottom
+		if (y > (240 - size)) {
+			if (racket.bounces(this)) {
+				if (speedY > 0) {
+					let speedY = -speedY;
+				}
+			}
+
+		}
+		
+		return (y < (250 - size));
+	}
+}

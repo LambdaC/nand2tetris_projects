@@ -1,0 +1,1 @@
+If the program feels lag, just modify the GameConfig.jack file to change the speed of this game.

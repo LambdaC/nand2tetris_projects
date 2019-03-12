@@ -1,0 +1,43 @@
+class GameConfig {
+	
+	/** move 1 pixel every moveingLineSpeed loop */
+	function int movingLineSpeed() {
+		return 50;
+	}
+	
+	function int enemyMoveSpeed() {
+		return 100;
+	}
+	
+	function int maxEnemies() {
+		return 6;
+	}
+	
+	function int maxEnemyBullets() {
+		return 10;
+	}
+	
+	function int enemySpawnSpeed() {
+		return 2500;
+	}
+	
+	function int enemyShootSpeed() {
+		return 50;
+	}
+	
+	function int bulletSpeed() {
+		return 10;
+	}
+	
+	function int maxBullets() {
+		return 5;
+	}
+	
+	function int shootSpeed() {
+		return 1;
+	}
+	
+	function int inputSpeed() {
+		return 75;
+	}
+}
