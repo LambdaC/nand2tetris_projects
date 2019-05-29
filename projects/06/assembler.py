@@ -88,6 +88,7 @@ def ReadFile(path):
 	global Index
 	iTable=[]
 	fo=open(path,"r")
+        //第一次循环,找出所有的label,并保存他们对应的位置
 	for line in fo:
 		line=line.replace(" ","")
 		if "\r\n" in line:
@@ -108,6 +109,7 @@ def ReadFile(path):
 	fo.close()
 
 	fo=open(path,"r")
+        //第二次循环，找出所有的汇编指令
 	for line in fo:
 		line=line.replace(" ","")
 		if "\r\n" in line:
@@ -138,6 +140,7 @@ def Decode(iTable,path):
 	path=path+".hack"
 	fo=open(path,"w")
 	for code in iTable:
+                // A指令
 		if code[0]=="@":
 			if code[1] not in ["0","1","2","3","4","5","6","7","8","9",]:
 				label=code[1:]
@@ -153,7 +156,9 @@ def Decode(iTable,path):
 				bAddr=bin(addr)[3:]
 				bAddr=bAddr+"\n"
 				fo.write(bAddr)
+                // C指令
 		else:
+                        // dest=comp;jump格式
 			if "=" in code and ";" in code:
 				dest=code.split("=")[0]
 				comp=code.split("=")[1].split(";")[0]
@@ -163,6 +168,7 @@ def Decode(iTable,path):
 				bJump=JumpTable.get(jump,None)
 				bAddr="111"+bComp+bDest+bJump+"\n"
 				fo.write(bAddr)
+                        // dest=comp格式
 			elif "=" in code and ";" not in code:
 				dest=code.split("=")[0]
 				comp=code.split("=")[1]
@@ -170,6 +176,7 @@ def Decode(iTable,path):
 				bComp=CompTable.get(comp,None)
 				bAddr="111"+bComp+bDest+"000"+"\n"
 				fo.write(bAddr)
+                        // comp;jump格式
 			elif "=" not in code and ";" in code:
 				comp=code.split(";")[0]
 				jump=code.split(";")[1]
@@ -177,6 +184,7 @@ def Decode(iTable,path):
 				bJump=JumpTable.get(jump,None)
 				bAddr="111"+bComp+"000"+bJump+"\n"
 				fo.write(bAddr)
+                        // comp格式
 			else:
 				comp=code
 				bComp=CompTable.get(comp,None)
